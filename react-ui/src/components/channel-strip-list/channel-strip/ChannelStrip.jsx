@@ -71,7 +71,7 @@ const ChannelStrip = (props) => {
         vertical
         reverse
         value={sliderEntry.val}
-        onChange={(e, val) => props.actions.handleSliderChange({idx, val})}
+        onChange={(e, val) => props.actions.handleSliderChange({ idx, val })}
         max={127}
         min={0}
         step={1}
@@ -190,7 +190,7 @@ const renderExpandedStuff = (props) => {
             type='number'
             name={`input-cc-name-${idx}`}
             value={sliderEntry.midiCC}
-            onChange={e => props.actions.selectCC({idx, val: e.target.value})} />
+            onChange={e => props.actions.selectCC({ idx, val: e.target.value })} />
 
         </FormControl>
       </Tooltip>
@@ -246,7 +246,7 @@ const renderExpandedStuff = (props) => {
             type='number'
             name={`input-channel-name-${idx}`}
             value={sliderEntry.midiChannel}
-            onChange={e => props.actions.selectMidiChannel({idx, val: e.target.value})} />
+            onChange={e => props.actions.selectMidiChannel({ idx, val: e.target.value })} />
         </FormControl>
       </Tooltip>
       <br />
@@ -380,7 +380,7 @@ const styles = theme => ({
 
 function mapStateToProps (state) {
   return {
-    colorSettings: state.colorSettings
+    colorSettings: state.storeBlob.colorSettings ||  state.colorSettings
   }
 }
 

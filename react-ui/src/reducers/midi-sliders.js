@@ -129,33 +129,6 @@ export const sliderList = createReducer([], {
     output.send(ccMessage) // omitting the timestamp means send immediately.
 
     return [...list]
-  },
-  [ActionTypeSlider.SAVE_FILE] (state, action) {
-    const storeCopy = store.getState()
-    let list = storeCopy.sliderList
-
-    const content = JSON.stringify(storeCopy)
-    const fileName = 'json.txt'
-    const contentType = 'text/plain'
-
-    var a = document.createElement('a')
-    var file = new window.Blob([content], { type: contentType })
-    a.href = URL.createObjectURL(file)
-    a.download = fileName
-    a.click()
-
-    return [...list]
-  },
-  [ActionTypeSlider.LOAD_FILE] (state, action) {
-    const files = action.payload[0]
-
-    if (!files.length) {
-      window.alert('No file select')
-    }
-    const content = files[0].target.result
-    const parsedJson = JSON.parse(content)
-    console.log('ASDfa', parsedJson)
-    return [...parsedJson.sliderList]
   }
 })
 

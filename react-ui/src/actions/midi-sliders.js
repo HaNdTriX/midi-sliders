@@ -12,9 +12,8 @@ export const ActionTypeSlider = {
   COLLAPSE_SLIDERS: 'COLLAPSE_SLIDERS',
   SELECT_CC: 'SELECT_CC',
   SELECT_MIDI_CHANNEL: 'SELECT_MIDI_CHANNEL',
-  HANDLE_SLIDER_CHANGE: 'HANDLE_SLIDER_CHANGE',
-  SAVE_FILE: 'SAVE_FILE',
-  LOAD_FILE: 'LOAD_FILE'
+  HANDLE_SLIDER_CHANGE: 'HANDLE_SLIDER_CHANGE'
+
 }
 
 export function selectSliderMidiDriver (payload) {
@@ -102,18 +101,5 @@ export function handleSliderChange (payload) {
   return {
     type: ActionTypeSlider.HANDLE_SLIDER_CHANGE,
     payload
-  }
-}
-
-export function saveFile () {
-  return {
-    type: ActionTypeSlider.SAVE_FILE
-  }
-}
-
-export function loadFile (results) {
-  return {
-    type: ActionTypeSlider.LOAD_FILE,
-    payload: results
   }
 }

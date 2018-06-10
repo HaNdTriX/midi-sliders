@@ -10,7 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   // Toolbar,
-  Typography,
+  // Typography,
   withStyles
 } from '@material-ui/core'
 import TodoIcon from '@material-ui/icons/FormatListNumbered'
@@ -26,6 +26,7 @@ import { Route, Router } from 'react-router'
 import MidiSlidersPage from './pages/MidiSlidersPage'
 import { bindActionCreators } from 'redux'
 import * as MidiSlidersAction from './actions/midi-sliders.js'
+import * as FileActions from './actions/save-and-load'
 
 import withRoot from './withRoot'
 import { store } from './ReduxRoot'
@@ -142,12 +143,12 @@ class App extends React.Component {
   }
 
   onFileChange = (e, results) => {
-    this.props.actions.loadFile(results)
+    this.props.actionFiles.loadFile(results)
     this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
   }
 
   handleSaveFile = () => {
-    this.props.actions.saveFile()
+    this.props.actionFiles.saveFile()
     this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
   }
 
@@ -249,7 +250,8 @@ const styles = theme => ({
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators(MidiSlidersAction, dispatch)
+    actions: bindActionCreators(MidiSlidersAction, dispatch),
+    actionFiles: bindActionCreators(FileActions, dispatch)
   }
 }
 export default (withRoot(withStyles(styles)(connect(null, mapDispatchToProps)(App))))
