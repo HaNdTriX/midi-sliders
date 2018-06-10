@@ -134,7 +134,7 @@ export const sliderList = createReducer([], {
     const storeCopy = store.getState()
     let list = storeCopy.sliderList
 
-    const content = JSON.stringify(list)
+    const content = JSON.stringify(storeCopy)
     const fileName = 'json.txt'
     const contentType = 'text/plain'
 
@@ -154,7 +154,8 @@ export const sliderList = createReducer([], {
     }
     const content = files[0].target.result
     const parsedJson = JSON.parse(content)
-    return [...parsedJson]
+    console.log('ASDfa', parsedJson)
+    return [...parsedJson.sliderList]
   }
 })
 

@@ -25,17 +25,13 @@ const defaultState = JSON.parse(
 export const store = createStore(rootReducer, {...defaultState}, middleware)
 
 class ReduxRoot extends React.Component {
-    state = {
-      mobileOpen: true
-    };
-
-    render () {
-      return (
-        <Provider store={store}>
-          <App />
-        </Provider>
-      )
-    }
+  render () {
+    return (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    )
+  }
 }
 
 export default ReduxRoot

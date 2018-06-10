@@ -24,11 +24,16 @@ const ChannelStrip = (props) => {
   const { sliderEntry, idx } = props.data
   const { classes } = props
   return (
-    <div className={classes.sliderContainer}>
+    <div
+      className={classes.sliderContainer}
+    >
       {
         sliderEntry.isExpanded ? (
           <Input
             classes={{ input: classes.inputInput }}
+            style={{
+              ...getForegroundStyle(props.colorSettings.colorFontSlider)
+            }}
             className={classes.input}
             type='text'
             onChange={e => props.actions.changeSliderLabel({
@@ -38,7 +43,12 @@ const ChannelStrip = (props) => {
             value={sliderEntry.label}
           />
         ) : (
-          <Typography className={classes.labelTop} >
+          <Typography
+            className={classes.labelTop}
+            style={{
+              ...getForegroundStyle(props.colorSettings.colorFontSlider)
+            }}
+          >
             {sliderEntry.label}
           </Typography>
         )
@@ -52,7 +62,12 @@ const ChannelStrip = (props) => {
           trackAfter: classes.trackAfter,
           thumb: classes.thumb
         }}
-        style={{ height: !sliderEntry.isExpanded ? 'calc(100vh - 54px - 120px)' : 'calc(100vh - 54px - 500px)', transition: 'height 1s ease' }}
+        style={
+          {
+            height: !sliderEntry.isExpanded ? 'calc(100vh - 54px - 100px)' : 'calc(100vh - 34px - 452px)',
+            transition: 'height 1s ease'
+          }
+        }
         vertical
         reverse
         value={sliderEntry.val}
@@ -61,7 +76,14 @@ const ChannelStrip = (props) => {
         min={0}
         step={1}
       />
-      <Typography className={classes.caption}>{sliderEntry.val}</Typography>
+      <Typography
+        className={classes.caption}
+        style={{
+          ...getForegroundStyle(props.colorSettings.colorFontSlider)
+        }}
+      >
+        {sliderEntry.val}
+      </Typography>
 
       {
         sliderEntry.isExpanded && renderExpandedStuff(props)
@@ -69,9 +91,18 @@ const ChannelStrip = (props) => {
       <div onClick={props.actions.expandSlider.bind(this, idx)}>
         {
           !sliderEntry.isExpanded ? (
-            <ExpandLessIcon className={classes.iconColor} />
+            <ExpandLessIcon
+              className={classes.iconColor}
+              style={{
+                ...getForegroundStyle(props.colorSettings.colorFontSlider)
+              }}
+            />
           ) : (
-            <ExpandMoreIcon className={classes.iconColor} />
+            <ExpandMoreIcon
+              className={classes.iconColor}
+              style={{
+                ...getForegroundStyle(props.colorSettings.colorFontSlider)
+              }} />
           )
         }
       </div>
@@ -79,9 +110,12 @@ const ChannelStrip = (props) => {
   )
 }
 
+const getBackgroundStyle = (clr) => (clr ? { backgroundColor: `rgba(${clr.rgb.r}, ${clr.rgb.g}, ${clr.rgb.b}, ${clr.rgb.a})` } : {})
+const getForegroundStyle = (clr) => (clr ? { color: `rgba(${clr.rgb.r}, ${clr.rgb.g}, ${clr.rgb.b}, ${clr.rgb.a})` } : {})
+
 const renderExpandedStuff = (props) => {
   const { sliderEntry, idx, availableDrivers } = props.data
-  const { classes } = props
+  const { classes, colorSettings } = props
   return (
     <React.Fragment>
 
@@ -91,9 +125,17 @@ const renderExpandedStuff = (props) => {
       >
         <Button
           className={classes.button}
+          style={{
+            ...getBackgroundStyle(colorSettings.colorBackgroundButtons)
+          }}
           variant='raised'
           onClick={props.actions.triggerNote.bind(this, idx)}>
-          <MusicIcon className={classes.iconColor} />
+          <MusicIcon
+            className={classes.iconColor}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontButton)
+            }}
+          />
         </Button>
       </Tooltip>
 
@@ -103,11 +145,23 @@ const renderExpandedStuff = (props) => {
       >
         <Button
           className={classes.button}
+          style={{
+            ...getBackgroundStyle(colorSettings.colorBackgroundButtons)
+          }}
           variant='raised'
           onClick={props.actions.toggleNote.bind(this, idx)}>
-          <MusicIcon className={classes.iconColor} />
+          <MusicIcon
+            className={classes.iconColor}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontButton)
+            }}
+          />
           <Typography
-            variant='caption'>
+            variant='caption'
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontButton)
+            }}
+          >
             {sliderEntry.isNoteOn ? 'Off ' : 'On'}
           </Typography>
 
@@ -118,9 +172,20 @@ const renderExpandedStuff = (props) => {
         title='You can set a CC Value or Note Message here.'
       >
         <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>CC / Note </InputLabel>
+          <InputLabel
+            className={classes.label}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontSlider)
+            }}
+            htmlFor='cc'
+          >
+            CC / Note
+          </InputLabel>
           <Input
             className={classes.input}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontSlider)
+            }}
             id='number'
             type='number'
             name={`input-cc-name-${idx}`}
@@ -133,10 +198,23 @@ const renderExpandedStuff = (props) => {
       <Tooltip
         placement='right'
         title={getSelectedDriverName(availableDrivers, sliderEntry.outputId)}>
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>Driver </InputLabel>
+        <FormControl
+          className={classes.formControl}
+          style={{
+            ...getForegroundStyle(colorSettings.colorFontSlider)
+          }}
+        >
+          <InputLabel
+            className={classes.label}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontSlider)
+            }}
+            htmlFor='cc'>Driver </InputLabel>
           <Select
             className={classes.select}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontSlider)
+            }}
             onChange={e => props.actions.selectSliderMidiDriver({
               idx,
               val: e.target.value
@@ -152,9 +230,18 @@ const renderExpandedStuff = (props) => {
         title='You can set the MIDI Channel here.'
       >
         <FormControl className={classes.formControl}>
-          <InputLabel className={classes.label} htmlFor='cc'>Channel </InputLabel>
+          <InputLabel
+            className={classes.label}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontSlider)
+            }}
+            htmlFor='cc'>Channel </InputLabel>
+
           <Input
             className={classes.input}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontSlider)
+            }}
             id='number'
             type='number'
             name={`input-channel-name-${idx}`}
@@ -169,9 +256,14 @@ const renderExpandedStuff = (props) => {
       >
         <Button
           className={classes.button}
+          style={getBackgroundStyle(colorSettings.colorBackgroundButtons)}
           variant='raised'
           onClick={props.actions.deleteSlider.bind(this, idx)}>
-          <DeleteIcon className={classes.iconColor} />
+          <DeleteIcon
+            className={classes.iconColor}
+            style={{
+              ...getForegroundStyle(colorSettings.colorFontButton)
+            }} />
         </Button>
       </Tooltip>
     </React.Fragment>
@@ -220,7 +312,6 @@ const styles = theme => ({
     border: 'solid 1px rgba(0,0,0,0.2)'
   },
   sliderRoot: {
-    width: 30,
     cursor: 'default',
 
     '&$vertical': {
@@ -255,8 +346,8 @@ const styles = theme => ({
     padding: 0
   },
   formControl: {
-    margin: theme.spacing.unit,
-    maxWidth: 140
+    // marginRight: 40,
+    maxWidth: 200
   },
   labelTop: {
     overflow: 'hidden',
@@ -287,10 +378,16 @@ const styles = theme => ({
   }
 })
 
+function mapStateToProps (state) {
+  return {
+    colorSettings: state.colorSettings
+  }
+}
+
 function mapDispatchToProps (dispatch) {
   return {
     actions: bindActionCreators(MidiSliderActions, dispatch)
   }
 }
 
-export default (withStyles(styles)(connect(null, mapDispatchToProps)(ChannelStrip)))
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ChannelStrip)))

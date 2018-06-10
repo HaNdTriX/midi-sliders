@@ -237,9 +237,9 @@ const styles = theme => ({
   },
   content: {
     backgroundColor: theme.palette.background.default,
-    width: '100%',
+    width: '100%'
     // height: 'calc(100% - 56px)',
-    marginTop: theme.spacing.unit
+    // marginTop: theme.spacing.unit
     // [theme.breakpoints.up('sm')]: {
     //   height: 'calc(100% - 64px)',
     //   marginTop: 64
