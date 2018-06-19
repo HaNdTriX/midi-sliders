@@ -13,8 +13,6 @@ class MidiSlidersPage extends React.Component {
 
   constructor (props) {
     super(props)
-    this.detectChromeBrowser()
-
     if (navigator.requestMIDIAccess) {
       navigator.requestMIDIAccess({ sysex: true })
         .then(this.onMIDISuccess, this.onMIDIFailure)
@@ -60,31 +58,6 @@ class MidiSlidersPage extends React.Component {
 
   onMIDIFailure = () => {
     window.alert('Could not access your MIDI devices.')
-  }
-
-  detectChromeBrowser = () => {
-    var isChromium = window.chrome
-    var winNav = window.navigator
-    var vendorName = winNav.vendor
-    var isOpera = typeof window.opr !== 'undefined'
-    var isIEedge = winNav.userAgent.indexOf('Edge') > -1
-    var isIOSChrome = winNav.userAgent.match('CriOS')
-
-    if (isIOSChrome) {
-      console.log('is Google Chrome on IOS')
-      window.alert('sry, is Google Chrome on IOS')
-    } else if (
-      isChromium !== null &&
-      typeof isChromium !== 'undefined' &&
-      vendorName === 'Google Inc.' &&
-      isOpera === false &&
-      isIEedge === false
-    ) {
-      console.log('is Google Chrome :-)')
-    } else {
-      console.log('not Google Chrome')
-      window.alert('Sry. This App will only work with Google Chrome Browser.')
-    }
   }
 }
 
