@@ -11,8 +11,9 @@
   },
   "scripts": {
     "dev": "concurrently \"node scripts/start.js\" \"wait-for-localhost 3000 && electron .\"",
-    "build": "NODE_ENV=production node scripts/build.js && build",
-    "test": "node scripts/test.js --env=jsdom"
+    "build": "NODE_ENV=production node scripts/build.js && build --mac --win",
+    "test": "node scripts/test.js --env=jsdom",
+    "postinstall": "electron-builder install-app-deps"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -60,9 +61,13 @@
     "electron-is-dev": "^0.3.0"
   },
   "build": {
-    "appId": "your.id",
+    "appId": "tim.susa.midi-sliders.de",
     "mac": {
       "category": "your.app.category.type"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
     },
     "files": [
       "build/**",
