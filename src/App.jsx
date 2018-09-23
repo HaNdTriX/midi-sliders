@@ -1,35 +1,21 @@
 import {
-  // Button,
-  Badge,
-  Divider,
   Drawer,
-  // Hidden,
-  // IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  // Toolbar,
-  // Typography,
   withStyles
 } from '@material-ui/core'
-import TodoIcon from '@material-ui/icons/FormatListNumbered'
-import LoadIcon from '@material-ui/icons/InsertDriveFile'
-import SaveIcon from '@material-ui/icons/Save'
-import DeleteIcon from '@material-ui/icons/Delete'
-// import MenuIcon from '@material-ui/icons/Menu'
 import { createBrowserHistory } from 'history'
 import * as React from 'react'
 import { connect } from 'react-redux'
+// import { Route, Router } from 'react-router'
 import { Route, HashRouter } from 'react-router-dom'
 
 import MidiSlidersPage from './pages/MidiSlidersPage'
 import { bindActionCreators } from 'redux'
-import * as MidiSlidersAction from './actions/midi-sliders.js'
+import * as MidiSlidersAction from './actions/slider-list.js'
 
-import withRoot from './withRoot'
-import AppBar from './components/AppBar'
-import FileReaderInput from './components/FileReader'
+import MenuAppBar from './components/menu-app-bar/MenuAppBar'
+import DrawerList from './components/DrawerList'
+
+import TestPage from './pages/TestPage.jsx'
 
 const history = createBrowserHistory()
 
@@ -41,64 +27,18 @@ class App extends React.Component {
   routes = (
     <div className={this.props.classes.content}>
       <Route exact path='/' component={MidiSlidersPage} />
-      <Route exact path='/midi-sliders' component={MidiSlidersPage} />
+      <Route exact path='/slider-list' component={MidiSlidersPage} />
+      <Route exact path='/test-page' component={TestPage} />
     </div>
   );
 
   render () {
-    let drawer = (
-      <div>
-        <div className={this.props.classes.drawerHeader} />
-        <Divider />
-        <List>
-          <FileReaderInput
-            as='binary'
-            onChange={this.onFileChange}>
-            <ListItem button>
-              <ListItemIcon >
-                <LoadIcon />
-              </ListItemIcon>
-              <ListItemText primary='Load Preset' />
-            </ListItem>
-          </FileReaderInput>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={this.handleSaveFile}>
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-            <ListItemText primary='Save Preset' />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={this.handleResetSliders}>
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary='Delete Sliders' />
-          </ListItem>
-        </List>
-        {/*
-        <List>
-          <ListItem button onClick={() => history.push('/about')}>
-            <ListItemIcon>
-              {this.renderRackIcon()}
-            </ListItemIcon>
-            <ListItemText primary='Rack' />
-          </ListItem>
-        </List>
-        */}
-        <div style={{ height: 10000 }} />
-      </div>
-    )
-
     return (
-      <HashRouter history={history}>
+      // <Router history={history}>
+      <HashRouter>
         <div className={this.props.classes.root}>
           <div className={this.props.classes.appBar}>
-            <AppBar
+            <MenuAppBar
               handleDrawerToggle={this.handleDrawerToggle}
             />
             <Drawer
@@ -113,7 +53,13 @@ class App extends React.Component {
                 keepMounted: true // Better open performance on mobile.
               }}
             >
-              {drawer}
+              <DrawerList
+                onFileChange={this.onFileChange}
+                handleSaveFile={this.handleSaveFile}
+                handleResetSliders={this.handleResetSliders}
+                classes={this.props.classes}
+                history={history}
+              />
             </Drawer>
             {this.routes}
           </div>
@@ -124,49 +70,17 @@ class App extends React.Component {
 
   onFileChange = (e, results) => {
     this.props.actions.loadFile(results)
-    this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
   handleSaveFile = () => {
     this.props.actions.saveFile()
-    this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
   handleResetSliders = () => {
-    this.props.actions.deleteAllSliders()
-    this.setState(state => ({isMobileOpen: !this.state.isMobileOpen}))
-  }
-
-  renderTodoIcon () {
-    let uncompletedTodos = this.props.rackItemList.filter(t => t.muted === false)
-
-    if (uncompletedTodos.length > 0) {
-      return (
-        <Badge color='secondary' badgeContent={uncompletedTodos.length}>
-          <TodoIcon />
-        </Badge>
-      )
-    } else {
-      return (
-        <TodoIcon />
-      )
-    }
-  }
-
-  renderRackIcon () {
-    let uncompletedTodos = this.props.todoList.filter(t => t.completed === false)
-
-    if (uncompletedTodos.length > 0) {
-      return (
-        <Badge color='secondary' badgeContent={uncompletedTodos.length}>
-          <TodoIcon />
-        </Badge>
-      )
-    } else {
-      return (
-        <TodoIcon />
-      )
-    }
+    this.props.actions.deleteAll()
+    this.setState(state => ({ isMobileOpen: !this.state.isMobileOpen }))
   }
 
   handleDrawerToggle = () => {
@@ -194,29 +108,16 @@ const styles = theme => ({
     margin: 0
   },
   navIconHide: {
-    // [theme.breakpoints.up('md')]: {
-    //   display: 'none'
-    // }
   },
   drawerHeader: theme.mixins.toolbar,
   drawerPaper: {
     width: 250,
     backgroundColor: theme.palette.background.default
-    // [theme.breakpoints.up('md')]: {
-    //   width: drawerWidth,
-    //   position: 'relative',
-    //   height: '100%'
-    // }
   },
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
-    // height: 'calc(100% - 56px)',
     marginTop: theme.spacing.unit
-    // [theme.breakpoints.up('sm')]: {
-    //   height: 'calc(100% - 64px)',
-    //   marginTop: 64
-    // }
   }
 })
 
@@ -225,4 +126,4 @@ function mapDispatchToProps (dispatch) {
     actions: bindActionCreators(MidiSlidersAction, dispatch)
   }
 }
-export default (withRoot(withStyles(styles)(connect(null, mapDispatchToProps)(App))))
+export default withStyles(styles)(connect(null, mapDispatchToProps)(App))

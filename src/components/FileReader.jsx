@@ -2,11 +2,10 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 
 export default class FileInput extends React.Component {
-  _reactFileReaderInput: any;
+  _reactFileReaderInput
 
   constructor (props) {
     super(props)
-
     const win = typeof window === 'object' ? window : {}
     if (!win.File || !win.FileReader || !win.FileList || !win.Blob) {
       console.warn(
@@ -18,7 +17,6 @@ export default class FileInput extends React.Component {
 
   render () {
     const { as, children, style, ...props } = this.props
-
     const hiddenInputStyle = children ? {
       // If user passes in children, display children and hide input.
       position: 'absolute',
@@ -76,7 +74,7 @@ export default class FileInput extends React.Component {
       }
     })))
       .then(zippedResults => {
-      // Run the callback after all files have been read.
+        // Run the callback after all files have been read.
         this.props.onChange(e, zippedResults)
       })
   }
